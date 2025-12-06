@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Days Since Cloudflare Went Down</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #0d0d0d;
+        color: #e6e6e6;
+        text-align: center;
+        padding-top: 60px;
+        margin: 0;
+    }
+
+    h1 {
+        color: #ffffff;
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+
+    .counter {
+        font-size: 90px;
+        font-weight: bold;
+        margin: 20px 0;
+        color: #00d4ff;
+        text-shadow: 0 0 10px #00d4ff;
+    }
+
+    .label {
+        font-size: 24px;
+        opacity: 0.9;
+        margin-bottom: 30px;
+    }
+
+    .meme {
+        margin-top: 40px;
+        max-width: 350px;
+        width: 80%;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+    }
+</style>
+</head>
+<body>
+
+<h1>Days Since Cloudflare Went Down</h1>
+
+<div class="counter" id="daysCounter">0</div>
+<div class="label">days</div>
+
+<!-- Meme placeholder – replace with your GitHub Pages link -->
+<img 
+    class="meme"
+    src="https://yourusername.github.io/your-repo/images/meme.png" 
+    alt="Cloudflare meme placeholder"
+/>
+
+<script>
+// ========== SET THE LAST OUTAGE DATE HERE ==========
+// Replace with the real Cloudflare outage date
+const lastOutageDate = new Date("2025-12-05");
+
+// ========== CALCULATE DAYS SINCE LAST OUTAGE ==========
+function updateCounter() {
+    const now = new Date();
+    const diffTime = now - lastOutageDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    document.getElementById("daysCounter").textContent = diffDays;
+}
+
+updateCounter();
+setInterval(updateCounter, 1000 * 60 * 60);
+</script>
+
+</body>
+</html>
