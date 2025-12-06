@@ -57,32 +57,10 @@
 />
 
 <script>
-// ========== AUTO-DETECT CLOUDFLARE STATUS & LIVE COUNTER ==========
+// ========== COUNTER FROM SPECIFIC TIME ==========
 
-// Outage start time
-const lastOutageDate = new Date("2025-12-05T00:47:00");
-
-// Cloudflare Status API
-const statusURL = "https://www.cloudflarestatus.com/api/v2/summary.json";
-
-// Dynamic outage date
-let dynamicOutageDate = lastOutageDate;
-
-// Check Cloudflare status
-async function checkCloudflareStatus() {
-    try {
-        const response = await fetch(statusURL);
-        const data = await response.json();
-
-        const bad = data.components.some(c => c.status !== "operational");
-
-        if (bad) {
-            dynamicOutageDate = new Date();
-        }
-    } catch (err) {
-        console.error("Cloudflare status check failed:", err);
-    }
-}
+// Outage start time: December 5th, 2025 at 12:47 AM
+const dynamicOutageDate = new Date("2025-12-05T00:47:00");
 
 // Update counter including seconds
 function updateCounter() {
@@ -102,12 +80,10 @@ function updateCounter() {
 }
 
 // Run immediately
-checkCloudflareStatus();
 updateCounter();
 
 // Update every second
-setInterval(checkCloudflareStatus, 1000 * 60 * 5); // Cloudflare status every 5 min
-setInterval(updateCounter, 1000);                  // live counter every second
+setInterval(updateCounter, 1000);
 </script>
 
 </body>
