@@ -6,3 +6,6 @@ https://images-ext-1.discordapp.net/external/CCXTZ3GTaiUMUp8RhUvm2fGnajnMIIHdIJR
 
 
 I had live cloudflare checking however i think it was detecting something or nothing at all and kept resetting the timer
+
+
+https://noble3212.github.io/Days-since-cloudflare-outage/
