@@ -24,8 +24,8 @@
         font-size: 90px;
         font-weight: bold;
         margin: 20px 0;
-        color: #ff3b3b; /* red text */
-        text-shadow: 0 0 10px #ff3b3b, 0 0 20px #ff3b3b; /* red glow */
+        color: #ff3b3b;
+        text-shadow: 0 0 10px #ff3b3b, 0 0 20px #ff3b3b;
     }
 
     .label {
@@ -39,7 +39,7 @@
         max-width: 350px;
         width: 80%;
         border-radius: 10px;
-        box-shadow: 0 0 20px rgba(255, 50, 50, 0.6); /* red glow */
+        box-shadow: 0 0 20px rgba(255, 50, 50, 0.6);
     }
 </style>
 </head>
@@ -58,9 +58,9 @@
 />
 
 <script>
-// ========== SET THE LAST OUTAGE DATE HERE ==========
-// Replace with the real Cloudflare outage date
-const lastOutageDate = new Date("2025-12-05");
+// ========== SET THE LAST OUTAGE DATE & TIME HERE ==========
+// December 5th, 2025 at 12:47 AM
+const lastOutageDate = new Date("2025-12-05T00:47:00");
 
 // ========== CALCULATE DAYS SINCE LAST OUTAGE ==========
 function updateCounter() {
