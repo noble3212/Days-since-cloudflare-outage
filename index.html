@@ -21,7 +21,7 @@
     }
 
     .counter {
-        font-size: 90px;
+        font-size: 60px;
         font-weight: bold;
         margin: 20px 0;
         color: #ff3b3b;
@@ -32,6 +32,12 @@
         font-size: 24px;
         opacity: 0.9;
         margin-bottom: 30px;
+    }
+
+    .last-update {
+        font-size: 16px;
+        opacity: 0.7;
+        margin-top: 10px;
     }
 
     .meme {
@@ -47,8 +53,9 @@
 
 <h1>Days Since Cloudflare Went Down</h1>
 
-<div class="counter" id="daysCounter">0</div>
-<div class="label">days</div>
+<div class="counter" id="daysCounter">0 days 0 hours 0 minutes</div>
+
+<div class="last-update" id="lastUpdate">Last update: --</div>
 
 <!-- Meme placeholder – replace with your GitHub Pages link -->
 <img 
@@ -58,23 +65,61 @@
 />
 
 <script>
-// ========== SET THE LAST OUTAGE DATE & TIME HERE ==========
-// December 5th, 2025 at 12:47 AM
+// ========== AUTO-DETECT CLOUDFLARE STATUS & UPDATE COUNTER ==========
+
+// Outage start time: Dec 5, 2025 at 12:47 AM
 const lastOutageDate = new Date("2025-12-05T00:47:00");
 
-// ========== CALCULATE DAYS SINCE LAST OUTAGE ==========
-function updateCounter() {
-    const now = new Date();
-    const diffTime = now - lastOutageDate;
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+// Cloudflare Status API endpoint
+const statusURL = "https://www.cloudflarestatus.com/api/v2/summary.json";
 
-    document.getElementById("daysCounter").textContent = diffDays;
+// Dynamic outage time
+let dynamicOutageDate = lastOutageDate;
+
+// Fetch Cloudflare status
+async function checkCloudflareStatus() {
+    try {
+        const response = await fetch(statusURL);
+        const data = await response.json();
+
+        // If any component is degraded or major outage, reset outage date
+        const bad = data.components.some(c => c.status !== "operational");
+
+        if (bad) {
+            dynamicOutageDate = new Date();
+        }
+    } catch (err) {
+        console.error("Cloudflare status check failed:", err);
+    }
 }
 
+// Update counter with days, hours, minutes
+function updateCounter() {
+    const now = new Date();
+    const diffTime = now - dynamicOutageDate;
+
+    const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+
+    document.getElementById("daysCounter").textContent = 
+        `${days} days ${hours} hours ${minutes} minutes`;
+
+    // Show last update timestamp
+    document.getElementById("lastUpdate").textContent = 
+        "Last update: " + now.toLocaleString();
+}
+
+// Run immediately
+checkCloudflareStatus();
 updateCounter();
-setInterval(updateCounter, 1000 * 60 * 60);
+
+// Update every minute
+setInterval(checkCloudflareStatus, 1000 * 60 * 5);  // check Cloudflare status every 5 min
+setInterval(updateCounter, 1000 * 60);              // update counter every minute
 </script>
 
 </body>
 </html>
+
 
